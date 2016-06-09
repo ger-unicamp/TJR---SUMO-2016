@@ -3,7 +3,7 @@
  * 
  * Codigo do sumo tradicional utilizado na ultima competicao de 2015
  * 
- * Data da ultima modificacao: 06/06/2016
+ * Data da ultima modificacao: 09/06/2016
  *******************************************************************/
 
 #include <Ultrasonic.h>
