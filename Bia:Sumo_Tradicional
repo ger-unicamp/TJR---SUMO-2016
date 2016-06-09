@@ -21,32 +21,38 @@
 /* distancia maxima de analise do sensor */
 #define SOM_MAX_DIST 60
 
+#define FRENTE HIGH
+#define TRAS LOW
+
 Ultrasonic sensorSomFrente(SOM_FRENTE_TRIG, SOM_FRENTE_ECHO);   
 Ultrasonic sensorSomDireita(SOM_DIREITA_TRIG, SOM_DIREITA_ECHO);  
 
+void controlamotor(int MOTOR_F, int MOTOR_T, boolean direcao)
+{
+  /* Motor esquerdo pra frente*/ 
+  digitalWrite(MOTOR_F, direcao);
+  digitalWrite(MOTOR_T, ! direcao);
+}
+
 void giraHorario() 
 { 
-
-  /* Motor esquerdo pra frente*/ 
-  digitalWrite(MOTOR_E_F, HIGH);
-  digitalWrite(MOTOR_E_T, LOW);
+  /* M
+otor esquerdo pra frente*/
+  controlamotor(MOTOR_E_F, MOTOR_E_T, FRENTE);
 
   /* Motor direito pra tras */
-  digitalWrite(MOTOR_D_T, HIGH);  
-  digitalWrite(MOTOR_D_F, LOW);
+  controlamotor(MOTOR_D_F, MOTOR_D_T, TRAS);
   
 }
 
 void giraAntiHorario() 
 {
 
-  /* Motor esquerdo pra tras */
-  digitalWrite(MOTOR_E_T, HIGH);
-  digitalWrite(MOTOR_E_F, LOW);
+  /* Motor esquerdo pra frente*/
+  controlamotor(MOTOR_E_F, MOTOR_E_T, TRAS);
 
-  /* Motor direito pra frente */
-  digitalWrite(MOTOR_D_F, HIGH); 
-  digitalWrite(MOTOR_D_T, LOW);  
+  /* Motor direito pra tras */
+  controlamotor(MOTOR_D_F, MOTOR_D_T, FRENTE);
 
 }
 
@@ -54,12 +60,10 @@ void avanca()
 {
 
  /* Motor esquerdo pra frente */
-  digitalWrite(MOTOR_E_F, HIGH);
-  digitalWrite(MOTOR_E_T, LOW);
+  controlamotor(MOTOR_E_F, MOTOR_E_T, FRENTE);
 
   /* Motor direito pra frente */
-  digitalWrite(MOTOR_D_F, HIGH);
-  digitalWrite(MOTOR_D_T, LOW);    
+  controlamotor(MOTOR_D_F, MOTOR_D_T, FRENTE);
   
   delay(200);
 }
@@ -67,12 +71,10 @@ void avanca()
 void volta() {
 
    /* Motor esquerdo pra tras */
-  digitalWrite(MOTOR_E_F, LOW);
-  digitalWrite(MOTOR_E_T, HIGH);
+  controlamotor(MOTOR_E_F, MOTOR_E_T, TRAS);
 
   /* Motor direito tras */
-  digitalWrite(MOTOR_D_F, LOW);
-  digitalWrite(MOTOR_D_T, HIGH);  
+  controlamotor(MOTOR_D_F, MOTOR_D_T, TRAS);
 
 }
 
