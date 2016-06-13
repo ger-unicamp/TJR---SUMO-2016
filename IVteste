@@ -1,0 +1,47 @@
+// Programa utilizado para testar os sensores de luz, já utilizando funções de calibração
+// Data da última modificação: 09/10/2015
+
+#include <QTRSensors.h>
+int limiar;
+
+QTRSensorsRC esquerda((unsigned char[]) {14,15}, 2);
+
+void setup(){
+  Serial.begin(9600);
+  int min, max, times;
+  esquerda.calibrate(); 
+  max = *esquerda.calibratedMaximumOn; //guardando valores maximo
+  min = *esquerda.calibratedMinimumOn; //e minimo das leituras
+  limiar = (max+min) * 0.5; //definicao do limiar entre preto e branco
+}
+void loop(){
+  unsigned int readings[2];
+  esquerda.read(readings);
+  
+  Serial.print ("Sensor 1: ");
+  if(readings[0] >= limiar){
+    Serial.print("PRETO (");
+  }
+  else{
+    Serial.print("BRANCO (");
+  }
+  Serial.print(readings[0]);
+  Serial.println(")");  
+  
+  Serial.print ("Sensor 2: ");
+  if(readings[1] >= limiar){
+    Serial.print("PRETO (");
+  }
+  else{
+    Serial.print("BRANCO ("); 
+  }
+  Serial.print(readings[1]);
+  Serial.println(")"); 
+  
+  Serial.println();
+ 
+  delay(500);
+}
+
+
+
