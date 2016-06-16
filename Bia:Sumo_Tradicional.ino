@@ -48,10 +48,10 @@ otor esquerdo pra frente*/
 void giraAntiHorario() 
 {
 
-  /* Motor esquerdo pra frente*/
+  /* Motor esquerdo pra tras*/
   controlamotor(MOTOR_E_F, MOTOR_E_T, TRAS);
 
-  /* Motor direito pra tras */
+  /* Motor direito pra frente */
   controlamotor(MOTOR_D_F, MOTOR_D_T, FRENTE);
 
 }
