@@ -28,6 +28,10 @@
 #define MOTOR_D_F 4
 #define MOTOR_D_T 5
 
+#define FRENTE HIGH
+#define TRAS LOW
+
+
 int limiarEsquerda1,limiarEsquerda2, limiarDireita1, limiarDireita2, limiarFrente1, limiarFrente2;
 
 QTRSensorsRC sensorLuzFrente((unsigned char[]) {LUZ_FRENTE_1, LUZ_FRENTE_2}, 2);
@@ -45,17 +49,22 @@ unsigned int readLuzFrente[2];
 unsigned int readLuzEsquerda[2];
 unsigned int readLuzDireita[2];
 
+void controlamotor(int MOTOR_F, int MOTOR_T, boolean direcao){
+
+  /* Motor esquerdo pra frente*/ 
+  digitalWrite(MOTOR_F, direcao);
+  digitalWrite(MOTOR_T, ! direcao);
+}
+
 void giraHorario() { 
   
   //Serial.print("-------------Horario\n");
 
-  /* Motor esquerdo pra frente*/ 
-  digitalWrite(MOTOR_E_F, HIGH);
-  digitalWrite(MOTOR_E_T, LOW);
+  /* Motor esquerdo pra frente*/
+  controlamotor(MOTOR_E_F, MOTOR_E_T, FRENTE);
 
   /* Motor direito pra tras */
-  digitalWrite(MOTOR_D_T, HIGH);  
-  digitalWrite(MOTOR_D_F, LOW);
+  controlamotor(MOTOR_D_F, MOTOR_D_T, TRAS);
   
   //Perigoso 
   //delay(1000);
@@ -65,13 +74,11 @@ void giraAntiHorario() {
   
   //Serial.print("-------------AntiHorario\n");
 
-  /* Motor esquerdo pra tras */
-  digitalWrite(MOTOR_E_T, HIGH);
-  digitalWrite(MOTOR_E_F, LOW);
+  /* Motor esquerdo pra frente*/
+  controlamotor(MOTOR_E_F, MOTOR_E_T, TRAS);
 
-  /* Motor direito pra frente */
-  digitalWrite(MOTOR_D_F, HIGH); 
-  digitalWrite(MOTOR_D_T, LOW); 
+  /* Motor direito pra tras */
+  controlamotor(MOTOR_D_F, MOTOR_D_T, FRENTE);
   
   //Perigoso
  // delay(1000);
@@ -86,9 +93,8 @@ void fugaDireita() {
   digitalWrite(MOTOR_E_F, LOW);
   digitalWrite(MOTOR_E_T, LOW);
 
-  /* Motor direito pra frente */
-  digitalWrite(MOTOR_D_F, HIGH);
-  digitalWrite(MOTOR_D_T, LOW); 
+  /* Motor direito pra tras */
+  controlamotor(MOTOR_D_F, MOTOR_D_T, TRAS); 
  
   //Perigoso
  //delay(1000); 
@@ -98,9 +104,8 @@ void fugaEsquerda() {
   
   //Serial.print("------------Fuga Esquerda\n");
 
-  /* Motor esquerdo pra frente */
-  digitalWrite(MOTOR_E_F, HIGH);
-  digitalWrite(MOTOR_E_T, LOW);
+  /* Motor esquerdo pra frente*/
+  controlamotor(MOTOR_E_F, MOTOR_E_T, FRENTE);
 
   /* Motor direito parado */
   digitalWrite(MOTOR_D_F, LOW);
@@ -115,12 +120,10 @@ void avanca() {
   //Serial.print("-------------Avanca\n");
 
  /* Motor esquerdo pra frente */
-  digitalWrite(MOTOR_E_F, HIGH);
-  digitalWrite(MOTOR_E_T, LOW);
+  controlamotor(MOTOR_E_F, MOTOR_E_T, FRENTE);
 
   /* Motor direito pra frente */
-  digitalWrite(MOTOR_D_F, HIGH);
-  digitalWrite(MOTOR_D_T, LOW);    
+  controlamotor(MOTOR_D_F, MOTOR_D_T, FRENTE);
   
   //delay(1000);
 }
@@ -129,15 +132,12 @@ void volta() {
   
  // Serial.print("--------------Volta\n");
 
-   /* Motor esquerdo pra tras */
-  digitalWrite(MOTOR_E_F, LOW);
-  digitalWrite(MOTOR_E_T, HIGH);
+  /* Motor esquerdo pra tras */
+  controlamotor(MOTOR_E_F, MOTOR_E_T, TRAS);
 
   /* Motor direito tras */
-  digitalWrite(MOTOR_D_F, LOW);
-  digitalWrite(MOTOR_D_T, HIGH);  
-  
-  
+  controlamotor(MOTOR_D_F, MOTOR_D_T, TRAS);
+
   //Perigoso
   //delay(1000);
 }
@@ -282,7 +282,6 @@ void setup() {
 
 void loop() {
 
-  
   //delay(1000);
      
   /* Testa os sensores de luz pra detectar o chão */
@@ -320,8 +319,5 @@ void loop() {
   }
   
   delay(10);
-
-
-  
 
 }
